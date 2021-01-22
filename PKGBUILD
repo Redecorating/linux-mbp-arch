@@ -4,7 +4,7 @@
 pkgbase=linux-mbp-custom
 pkgver=5.7.19
 _srcname=linux-${pkgver}
-pkgrel=1
+pkgrel=2
 pkgdesc='Linux for MBP'
 _srctag=v${pkgver%.*}-${pkgver##*.}
 url="https://git.archlinux.org/linux.git/log/?h=v$_srctag"
@@ -25,7 +25,8 @@ source=(
 
   # Arch Linux patches
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
-  0002-virt-vbox-Add-support-for-the-new-VBG_IOCTL_ACQUIRE_.patch
+  0002-PCI-EDR-Log-only-ACPI_NOTIFY_DISCONNECT_RECOVER-even.patch
+  0003-virt-vbox-Add-support-for-the-new-VBG_IOCTL_ACQUIRE_.patch
 
   # Hack for AMD DC eDP link rate bug
   2001-drm-amd-display-Force-link_rate-as-LINK_RATE_RBR2-fo.patch
@@ -48,13 +49,10 @@ source=(
 
   # MBP Peripheral support
   6001-media-uvcvideo-Add-support-for-Apple-T2-attached-iSi.patch	# UVC Camera support
+  wifi.patch								# Broadcom Wifi support
 
   # Hack for i915 overscan issues
   7001-drm-i915-fbdev-Discard-BIOS-framebuffers-exceeding-h.patch
-
-  # Broadcom WIFI/BT device support
-  8001-brcmfmac-Add-initial-support-for-the-BRCM4355.patch
-  8002-brcmfmac-Add-initial-support-for-the-BRCM4377.patch
 )
 
 validpgpkeys=(
@@ -62,27 +60,27 @@ validpgpkeys=(
   '647F28654894E3BD457199BE38DBBDC86092693E'  # Greg Kroah-Hartman
 )
 
-sha256sums=('568464fce14e8dd070c8f7249dfbdfbe11c87612dfd08520fb73d359b3de3c03'
+sha256sums=('419c6248b9ae4dfead4599787aecbfd202e88bc4124523adfa6dd2d642b99fe7'
             'SKIP'
             '17f81d9d03fbaefeafacfe1fe2f737c8f4dfeccfeb037170523021d9a0354ed7'
             '8cb21e0b3411327b627a9dd15b8eb773295a0d2782b1a41b2a8839d1b2f5778c'
-            '227660f321e60d76e9e33f957f0d7eeb4a49a485c14a9da493f3e18b6f3a00fe'
-            '96c9359ad7e648f4f75ecae7aa3d116282b3afe39f66eecc4fd337e3633a9701'
+            'd831e9dc07901a1ca581afc18a12690fcedc208609a560b6486acfd6b333cf19'
+            '72363eb41f7efca92a068f6ba7805a566f58531709c0e3b37357dece562feab6'
+            '49363f975a5c5888afad5d2734fb76fe6b49df48a2f49d050f9e50d7dda65289'
             '1c2363d3f577b58c5d6b2b7919b0d77a8615701adc36fdf31d63c46e61c73e01'
-            '3b9bfb4a0eaad6b0a6048586388f25ef0af0f5fbfe0251ca2bc205bc43efeda9'
-            'a458def709e61ecf770dbbabc819e04a597a9121ddae6a289f830891945ac821'
-            'b293594d9bccf380790979e79c1114425544dcd65ce3907aa3566d1b665b4e7b'
-            '2c8aaff9cca52535efd3fb4b6f31eb69f8ab403aced2552fcfd5771e247640d9'
-            'f42c1d0f6a29117644219a34ebb7b3c008a32a8f87103cf6e138e750806c9f5b'
-            'dcd8d0209e228b7e9bf9e3e922731abeb03dc9f074df34b147fc419e6adc6e63'
+            '25e1aac0d44d72e377f08e4f4b90351cffcacc0be63e02a4033cb99f10cc9fe7'
+            'c70118659c5cf6a5c7f060c941d46fdd3b1e6d28f2b62c24a941745f2b3c4732'
+            '3855aa07fab97d202900216951225b6952d7c716258a3c3727df8e6277289ee0'
+            '9e5e0b45fe007ed214049b26b44174ee8f61376076e80fd33bba9fdac001e157'
+            '3c8a361370ed3ee094e2c8af1ff5360fd78f24e387c250904031fb70e8f2bb6e'
+            '8e43d95104301913737e5d73860f0e21bb0e5e25dcfd0f16d48a0715b38c98a1'
             'SKIP'
             'SKIP'
             '0318952f59efdce4dc72703adc764940db6fdff184960c27a23a80c3413d8a60'
             'e632f2959efca848fd28acb5e278cc476f8fb54d70ca95272b0a76add47e474e'
             'eb5134e6b7415528547120e661aa58d7125cc657e982c924989d7a63d253d85e'
-            '90a6012cdd8a64ede8e0bbaf7331960bd68f628e0973b65459188eb1ccb5b829'
-            '8ec1429712ac10f0257d8f3c0bfdca418a04f3be147a2f37b3759bd6d44f2690'
-            'edb804461e3820ef3397e1e236f7caabf906b6a13d03f406c8462ec476ecbbe5')
+            '17f11a531e975f401449e5a0e230c596cdaff51c95a9e7b70bc7ce9455a1f0e1'
+            'c00e29fc39848422049faa341134c236589a7f1c9654695fd19fd5d4f031c1b5')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -102,7 +100,7 @@ prepare() {
     src="${src##*/}"
     [[ $src = *.patch ]] || continue
     echo "Applying patch $src..."
-    patch -Np1 < "../$src"
+    patch -Np1 < "../$src"||:
   done
 
   echo "Setting config..."
