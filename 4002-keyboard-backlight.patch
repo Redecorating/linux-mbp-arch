@@ -172,7 +172,7 @@ index 9c7f68bb0b99..85560293d45e 100644
  	return 0;
  }
  
-@@ -580,15 +703,15 @@ static const struct hid_device_id apple_devices[] = {
+@@ -580,17 +703,17 @@ static const struct hid_device_id apple_devices[] = {
  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING9_JIS),
  		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING10_T2_A),
