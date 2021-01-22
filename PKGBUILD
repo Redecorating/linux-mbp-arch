@@ -1,8 +1,8 @@
 # Maintainer: Aun-Ali Zaidi <admin@kodeit.net>
 # Contributor: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
 
-pkgbase=linux-mbp
-pkgver=5.8.17
+pkgbase=linux-mbp-custom
+pkgver=5.7.19
 _srcname=linux-${pkgver}
 pkgrel=1
 pkgdesc='Linux for MBP'
@@ -64,7 +64,7 @@ validpgpkeys=(
 
 sha256sums=('568464fce14e8dd070c8f7249dfbdfbe11c87612dfd08520fb73d359b3de3c03'
             'SKIP'
-            '64aeed3e2b4ceef4c3e7132efccd0e670a19c7f3dca1556df021eeecd61eb837'
+            '17f81d9d03fbaefeafacfe1fe2f737c8f4dfeccfeb037170523021d9a0354ed7'
             '8cb21e0b3411327b627a9dd15b8eb773295a0d2782b1a41b2a8839d1b2f5778c'
             '227660f321e60d76e9e33f957f0d7eeb4a49a485c14a9da493f3e18b6f3a00fe'
             '96c9359ad7e648f4f75ecae7aa3d116282b3afe39f66eecc4fd337e3633a9701'
@@ -75,8 +75,8 @@ sha256sums=('568464fce14e8dd070c8f7249dfbdfbe11c87612dfd08520fb73d359b3de3c03'
             '2c8aaff9cca52535efd3fb4b6f31eb69f8ab403aced2552fcfd5771e247640d9'
             'f42c1d0f6a29117644219a34ebb7b3c008a32a8f87103cf6e138e750806c9f5b'
             'dcd8d0209e228b7e9bf9e3e922731abeb03dc9f074df34b147fc419e6adc6e63'
-            'e1d72fdb0a7a66a6f3fc8afb6fe056f28cfa088c1cc9c799b93405b62a274b96'
-            '6785a219662672430af11fdc650c19bf7d2073ae696247a37635a30f28bcb693'
+            'SKIP'
+            'SKIP'
             '0318952f59efdce4dc72703adc764940db6fdff184960c27a23a80c3413d8a60'
             'e632f2959efca848fd28acb5e278cc476f8fb54d70ca95272b0a76add47e474e'
             'eb5134e6b7415528547120e661aa58d7125cc657e982c924989d7a63d253d85e'
