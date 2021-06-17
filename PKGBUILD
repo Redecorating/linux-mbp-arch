@@ -1,13 +1,11 @@
-# Maintainer: Aun-Ali Zaidi <admin@kodeit.net>
-# Contributor: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
-pkgbase=linux-mbp
-pkgver=5.12.11
-_srcname=linux-${pkgver}
+pkgbase=linux-zen
+pkgver=5.12.10.zen1
 pkgrel=1
-pkgdesc='Linux for MBP'
+pkgdesc='Linux ZEN'
 _srctag=v${pkgver%.*}-${pkgver##*.}
-url="https://git.archlinux.org/linux.git/log/?h=v$_srctag"
+url="https://github.com/zen-kernel/zen-kernel/commits/$_srctag"
 arch=(x86_64)
 license=(GPL2)
 makedepends=(
@@ -16,10 +14,9 @@ makedepends=(
   git
 )
 options=('!strip')
-
+_srcname=zen-kernel
 source=(
-  https://www.kernel.org/pub/linux/kernel/v${pkgver//.*}.x/linux-${pkgver}.tar.xz
-  https://www.kernel.org/pub/linux/kernel/v${pkgver//.*}.x/linux-${pkgver}.tar.sign
+  "$_srcname::git+https://github.com/zen-kernel/zen-kernel?signed#tag=$_srctag"
   config         # the main kernel config file
 
   # Arch Linux patches
@@ -71,10 +68,10 @@ source=(
 validpgpkeys=(
   'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
   '647F28654894E3BD457199BE38DBBDC86092693E'  # Greg Kroah-Hartman
+  'A2FF3A36AAA56654109064AB19802F8B0D70FC30'  # Jan Alexander Steffens (heftig)
 )
-
-sha256sums=('ae7c3310365f6afdc0b6bd01f434a52c484589bd9b0fea8067b81a46d6f67f7a'
-            'SKIP'
+sha256sums=('SKIP'
+            '296a656e8a2b577252c5f9d72c7ec13e36963d82f9a17e413152924bfea0dfef')
             '57acef504e43acf77ba6515ca01adfe74870ceb7cec6f0b5fbd5546793da52b1'
             '5cba62d057b0338caf5348c2c4ba9d2316d9b643baacfbd3b76a1f21109ca087'
             '2941e2966740841c5d21e642b3f85d4363db18efc86965ff0f7d197ebacc3a1b'
@@ -146,9 +143,8 @@ _package() {
   depends=(coreutils kmod initramfs)
   optdepends=('crda: to set the correct wireless channels of your country'
               'linux-firmware: firmware images needed for some devices')
-  provides=(VIRTUALBOX-GUEST-MODULES WIREGUARD-MODULE)
-  replaces=(virtualbox-guest-modules-arch wireguard-arch)
-  provides=("linux=$pkgver")
+  provides=(VIRTUALBOX-GUEST-MODULES WIREGUARD-MODULE VHBA-MODULE)
+  replaces=()
 
   cd $_srcname
   local kernver="$(<version)"
@@ -171,7 +167,7 @@ _package() {
 
 _package-headers() {
   pkgdesc="Headers and scripts for building modules for the $pkgdesc kernel"
-  provides=("linux-headers=$pkgver")
+  depends=(pahole)
 
   cd $_srcname
   local builddir="$pkgdir/usr/lib/modules/$(<version)/build"
